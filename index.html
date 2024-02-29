@@ -6,6 +6,8 @@
     <script>
       var classifer;
       var imageResult;
+      var inferenceError;
+      var err;
       var items = [
     "tench",
     "goldfish",
@@ -1019,9 +1021,9 @@ window.onload = function() {
               const img = new Uint8Array(arrayBuffer, classifer.buf);
               classifer.inference(img).then((res) =>{
                 let container = document.getElementById("container");
-                container.innerHTML += `<p>${res?.label}</p>`;
+                container.innerHTML += `<p>inference result is ${res?.label}</p>`;
                 console.log(res?.label);
-              });
+              })
             };
             reader.readAsArrayBuffer(file);
           });
@@ -1072,23 +1074,26 @@ window.onload = function() {
       </script>
   </head>
   <body>
-    <div id="container"></div>
+    <div id="container"><p>Try on laptop for jpg files.
+      Selecting a jpg file will trigger the inference model to run automatically and print the result.
+      <p>can take 2 seconds, check console for errors and log -> press f12</p>
+    </p></div>
     <input type="file" id="input"/>
+    <div id="yourclassifer"></div>
     <div style="height: 100px;width: 100vh;"></div>
     <div id="items"></div>
     <script type="module">
-       let container = document.getElementById("items");
-      container.innerHTML += `<p>choose from below items</p>
-                  <p>${items}</p>`;  
+      
       import init,{   ImageClassifier, ImageResult } from "./pkg/resnet.js";
       init().then(() => {
-       
-                
+        let container = document.getElementById("items");
+                container.innerHTML += `<p>choose from below items</p>
+                  <p>${items}</p>`;  
           // Initialize the classifier and save to module level variable
             classifer = new ImageClassifier();
-            
-            
-            
+        }).catch(err => {
+          let yc = document.getElementById("yourclassifer");
+                yc.innerHTML += `<p>error try on laptop ${classifer}</p>`;  
         });
     </script>
   </body>
