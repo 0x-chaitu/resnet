@@ -1021,7 +1021,7 @@ window.onload = function() {
               const img = new Uint8Array(arrayBuffer, classifer.buf);
               classifer.inference(img).then((res) =>{
                 let container = document.getElementById("container");
-                container.innerHTML += `<p>inference result is ${res?.label}</p>`;
+                container.innerHTML += `<p style="color: red;">inference result is ${res?.label}</p>`;
                 console.log(res?.label);
               })
             };
@@ -1075,11 +1075,14 @@ window.onload = function() {
   </head>
   <body>
     <div id="container"><p>Try on laptop for jpg files.
-      Selecting a jpg file will trigger the inference model to run automatically and print the result.
-      <p>can take 2 seconds, check console for errors and log -> press f12</p>
+      <p >wait for 2 seconds for model to load</p>
+      Selecting a jpg file will trigger the inference model to run automatically.
+      <p>can take 2 seconds for inference to run, check console for errors  press f12</p>
+      <p>result will be printed below</p>
     </p></div>
+    <div id="classifer"></div>
     <input type="file" id="input"/>
-    <div id="yourclassifer"></div>
+    <div id="error"></div>
     <div style="height: 100px;width: 100vh;"></div>
     <div id="items"></div>
     <script type="module">
@@ -1091,8 +1094,10 @@ window.onload = function() {
         
           // Initialize the classifier and save to module level variable
             classifer = new ImageClassifier();
+            let c = document.getElementById("container");
+                  
         }).catch(err => {
-          let yc = document.getElementById("yourclassifer");
+          let yc = document.getElementById("error");
                 yc.innerHTML += `<p>error try on laptop ${classifer}</p>`;  
         });
     </script>
