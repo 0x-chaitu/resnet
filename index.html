@@ -1077,12 +1077,13 @@ window.onload = function() {
     <div style="height: 100px;width: 100vh;"></div>
     <div id="items"></div>
     <script type="module">
-      
+       let container = document.getElementById("items");
+      container.innerHTML += `<p>choose from below items</p>
+                  <p>${items}</p>`;  
       import init,{   ImageClassifier, ImageResult } from "./pkg/resnet.js";
       init().then(() => {
-        let container = document.getElementById("items");
-                container.innerHTML += `<p>choose from below items</p>
-                  <p>${items}</p>`;  
+       
+                
           // Initialize the classifier and save to module level variable
             classifer = new ImageClassifier();
             
